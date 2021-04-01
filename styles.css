@@ -1,0 +1,39 @@
+html{
+	width: 100vw;
+	height: 100vh;
+}
+body {
+	color: white;
+	background-color: rgb(44, 44, 44);
+  font-family: "Lato", serif;
+}
+.header {
+  display: flex;
+  justify-content: center;
+}
+.header-link {
+  font-size: 2em;
+  padding: 0.5em;
+}
+.header-logo {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 80vw;
+  object-fit: contain;
+  max-height: 24vh;
+}
+p,h1{
+	margin: 0.5vh;
+	padding: 0.3vh;
+}
+.body-box{
+	margin-top: 5vh;
+	width: 87vw;
+	margin-left: auto;
+	margin-right: auto;
+	text-align: center;
+	font-size: 1.5em;
+	outline: 5px solid whitesmoke;
+	max-width: 25em;
+}
