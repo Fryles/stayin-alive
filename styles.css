@@ -12,6 +12,8 @@ body {
   justify-content: center;
 }
 .header-link {
+	color: white;
+  text-decoration: none; /* no underline */
   font-size: 2em;
   padding: 0.5em;
 }
