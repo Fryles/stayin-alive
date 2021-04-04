@@ -6,11 +6,13 @@ const fs = require("fs");
 const axios = require("axios");
 
 app.use(
-  bodyParser.json({ limit: "50mb", extended: true, parameterLimit: 50000 })
+  bodyParser.json({ limit: "10mb", extended: true, parameterLimit: 50000 })
 );
 
 
 app.use('/', express.static('public'))
+app.use('/profile', express.static('public'))
+
 
 app.get("/explore", (req, res) => {
   fs.readFile("./timetable.json", "utf8", (err, data) => {
@@ -28,7 +30,6 @@ app.get("/explore", (req, res) => {
 app.post("/post", (req, res) => {
   var uuid = uuidv4();
   var data = req.body;
-  console.log(data);
   fs.readFile("./posts.json", function (err, existing) {
     var json = JSON.parse(existing);
     json[uuid] = data;
@@ -66,11 +67,17 @@ app.get("/gitauth", (req, res) => {
     .then(function (response) {
       //set token and redirect to profile page
       res.cookie('token',response.data.access_token, { maxAge: 900000});
-      res.status(200).send("<script>window.location.href='./profile'</script>")
+      res.status(200).send("<script>window.location.href='./#profile'</script>")
     }).catch(function (error) {
       console.log("ERROR: "+error);
     });
   })
+});
+
+app.post("/gitinfo", (req, res) => {
+  tok = req.body
+  console.log("TOKEN: "+tok);
+
 });
 
 app.listen(80, () => {

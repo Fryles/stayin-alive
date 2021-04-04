@@ -1,68 +1,94 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-	<meta charset="UTF-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
-	<style>
-		html{
-	width: 100vw;
-	height: 100vh;
-}
-body {
-	color: white;
-	background-color: rgb(44, 44, 44);
-  font-family: "Lato", serif;
-}
-.header {
-  display: flex;
-  justify-content: center;
-}
-.header-link {
-	color: white;
-  text-decoration: none; /* no underline */
-  font-size: 2em;
-  padding: 0.5em;
-}
-.header-logo {
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-  width: 80vw;
-  object-fit: contain;
-  max-height: 24vh;
-}
-
-.body-box{
-	margin-top: 5vh;
-	width: 87vw;
-	margin-left: auto;
-	margin-right: auto;
-	text-align: center;
-	font-size: 1.5em;
-	outline: 5px solid whitesmoke;
-	max-width: 25em;
-}
-
-	</style>
-	<script src="script.js"></script>
-	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-	<title>Stayin' Alive</title>
-</head>
-<body>
-	<img class='header-logo' src='Title.png'>
-	<div class='header'>
-	
-	<a href='#' class='header-link' onclick='postDia();'>Post</a>
-	<a href='#' class='header-link' onclick='loadExplore();'>Explore</a>
-	<a href='#' class='header-link' onclick='loadFeed();'>Feed</a>
-	<a href='#' class='header-link' onclick='loadProfile()'>Profile</a>
-	</div>
-	<div class='main'>
-		
-	</div>
-	<div class='footer'></div>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Lato"
+    />
+    <style>
+      html {
+        width: 100vw;
+        height: 100vh;
+      }
+      body {
+        color: white;
+        background-color: rgb(44, 44, 44);
+        font-family: "Lato", serif;
+      }
+      .header {
+        display: flex;
+        justify-content: center;
+      }
+      .header-link {
+        cursor: pointer;
+        color: white;
+        text-decoration: none; /* no underline */
+        font-size: calc(17px + 1.6vw);
+        padding: 0.5em;
+      }
+      .header-logo {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        width: 80vw;
+        object-fit: contain;
+        max-height: 24vh;
+      }
+			.prof-pic{
+				width: 5em;
+				height: 5em;
+				border-radius: 50%;
+			}
+			.prof-header{
+				padding: 1em;
+				display: flex;
+    		flex-direction: row;
+    		align-items: flex-start
+			}
+			.prof-header h1{
+				padding: 0 1em;
+			}
+			.prof-box{
+				margin-left: auto;
+        margin-right: auto;
+				height: 50vh;
+				background-color: rgb(27, 27, 27);
+				border-radius: 14px;
+				max-width: 40em;
+			}
+			.prof-main{
+				padding: 1em;
+			}
+      .body-box {
+        margin-top: 5vh;
+        width: 87vw;
+        margin-left: auto;
+        margin-right: auto;
+        text-align: center;
+        font-size: 1.5em;
+        outline: 5px solid whitesmoke;
+        max-width: 25em;
+      }
+    </style>
+    <script type="module" src="script.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <title>Stayin' Alive</title>
+  </head>
+  <body>
+    <img class="header-logo" src="./Title.png" />
+    <div class="header">
+      <a class="header-link" onclick="postDia();">Post</a>
+      <a href='../#explore' class="header-link" onclick="window.location.reload(true)">Explore</a>
+      <a href='../#feed' class="header-link">Feed</a>
+      <a href='../#profile' class="header-link">Profile</a>
+    </div>
+    <div class="main">
+      
+    </div>
+    <div class="footer"></div>
+  </body>
 </html>

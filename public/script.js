@@ -1,5 +1,28 @@
+import { Octokit } from "https://cdn.skypack.dev/@octokit/rest";
+$(window).on('hashchange',function(){ 
+  window.location.reload(); 
+});
 document.addEventListener("DOMContentLoaded", function () {
-  loadExplore(15);
+  var initialLoaded = 15;
+  var path = window.location.hash.substr(1)
+  console.log(path);
+  switch (path) {
+    case "/":
+      loadExplore(initialLoaded);
+      break;
+    case "explore":
+      loadExplore(initialLoaded);
+      break;
+    case "feed":
+      loadFeed(initialLoaded);
+      break;
+    case "profile":
+      loadProfile();
+      break;
+    case "post":
+      postDia();
+      break;
+  }
 });
 
 function postDia() {
@@ -28,7 +51,7 @@ function post() {
     img = dataUrl;
     console.log(img);
     $.ajax({
-      url: "./post",
+      url: window.location.origin + "/post",
       type: "POST",
       data: JSON.stringify({
         img: img,
@@ -59,32 +82,31 @@ function changeDis(input) {
   }
 }
 
-function loadProfile() {
-  if (getCookie("token") != "") {
-    $.ajax({
-      url: "",
-      type: "GET",
-      data: {},
-      error: function (err) {
-        console.log("Error:" + err);
-      },
-      success: function (msg) {
-        console.log(msg);
-      },
-});
+async function loadProfile() {
+  console.log("laoding prof")
+  const token = getCookie("token");
+  if (token != "" || token == undefined) {
+    const octokit = new Octokit({
+      auth: token,
+    });
+    var data = await octokit.request("/user");
+    data = data.data
+    let usr = data.name;
+    let pic = data.avatar_url;
+    let bio =data.bio;
+    var html = '<div class="prof-box"><div class="prof-header"><img class="prof-pic" src="'+pic+'"><h1>'+usr+'</h1></div><div class="prof-main">'+bio+'</div></div>'
+    $(".main").append(html);
 
   } else {
-    //no token, request user to login with github
-    window.location.href =
-      "https://github.com/login/oauth/authorize?client_id=1683b396d56e593c5732";
+    signUp();
   }
 }
 function loadExplore(reqs = 10) {
-  //CLEAR items
+  clearBody();
   //TODO move list of posts to server to stop race condition and other bad things
-  for (i = 0; i < reqs; i++) {
+  for (let i = 0; i < reqs; i++) {
     $.ajax({
-      url: "./explore",
+      url: window.location.origin + "/explore",
       type: "GET",
       data: { index: i },
       dataType: "html",
@@ -92,17 +114,22 @@ function loadExplore(reqs = 10) {
         console.log("Error:" + err);
       },
       success: function (msg) {
-        json = JSON.parse(msg);
-        $('.main').append('<img src="'+json.img+'">')
+        if (msg != "") {
+          var json = JSON.parse(msg);
+          $(".main").append('<img src="' + json.img + '">');
+        }
       },
     });
   }
 }
 
-function clearBody(){
-  $('.main').empty();
+function clearBody() {
+  $(".main").empty();
 }
-
+function signUp() {
+  window.location.href =
+    "https://github.com/login/oauth/authorize?client_id=1683b396d56e593c5732";
+}
 
 //helper func from https://www.w3schools.com/js/js_cookies.asp
 function getCookie(cname) {
@@ -120,7 +147,6 @@ function getCookie(cname) {
   }
   return "";
 }
-
 //helper func for sending imgs over ajax
 //https://stackoverflow.com/questions/6150289/how-can-i-convert-an-image-into-base64-string-using-javascript
 function toDataURL(url, callback) {
