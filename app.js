@@ -3,12 +3,14 @@ const app = express();
 const bodyParser = require("body-parser");
 const { v4: uuidv4 } = require("uuid");
 const fs = require("fs");
-var request = require('request')
+const axios = require("axios");
 
 app.use(
   bodyParser.json({ limit: "50mb", extended: true, parameterLimit: 50000 })
 );
-app.use(express.static(__dirname + "/"));
+
+
+app.use('/', express.static('public'))
 
 app.get("/explore", (req, res) => {
   fs.readFile("./timetable.json", "utf8", (err, data) => {
@@ -18,7 +20,7 @@ app.get("/explore", (req, res) => {
     fs.readFile("./posts.json", "utf8", (err, data) => {
       if (err) throw err;
       data = JSON.parse(data);
-      res.status(200).end(data[postid]);
+      res.status(200).end(JSON.stringify(data[postid]));
     });
   });
 });
@@ -33,8 +35,7 @@ app.post("/post", (req, res) => {
     fs.writeFile("./posts.json", JSON.stringify(json), "utf8", (err) => {
       if (err) throw err;
     });
-
-    res.status(200).end(); //this shouldnt be here oh well
+    res.status(200).end("Succ"); //this shouldnt be here oh well
   });
   fs.readFile("./timetable.json", function (err, tt) {
     var json = JSON.parse(tt);
@@ -42,23 +43,33 @@ app.post("/post", (req, res) => {
     fs.writeFile("./timetable.json", JSON.stringify(json), "utf8", (err) => {
       if (err) throw err;
     });
-
-    res.status(200).end(); //this shouldnt be here oh well
   });
 });
 
 app.get("/gitauth", (req, res) => {
-  var code = req.query.code
-  //read secret so u stinkys dont take it
-  
-  request.post({
-    url: 'https://github.com/login/oauth/access_token/?client_id=1683b396d56e593c5732&client_secret=92a2e6ac30db45612c4ed6ee4fbca22a95370807&code=' + code,
-    headers: {
-      'User-Agent': 'request'
+  var code = req.query.code;
+  //read secret so stinkys dont take it
+  fs.readFile("./secret.json", function (err, read) {
+    var json = JSON.parse(read);
+    var secret = json.secret;
+    var config = {
+      headers: {
+        Accept: "application/json",
+      }
     }
-  }, function (error, response, body) {
-        console.log('hi2');
-        console.log(body);
+    const url = "https://github.com/login/oauth/access_token/?client_id=1683b396d56e593c5732&client_secret="+secret+"&code=" + code;
+    axios.post(url, JSON.stringify({
+      "client_id": '1683b396d56e593c5732',
+      "client_secret": secret,
+      "code": code
+    }),config)
+    .then(function (response) {
+      //set token and redirect to profile page
+      res.cookie('token',response.data.access_token, { maxAge: 900000});
+      res.status(200).send("<script>window.location.href='./profile'</script>")
+    }).catch(function (error) {
+      console.log("ERROR: "+error);
+    });
   })
 });
 
