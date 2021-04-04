@@ -26,14 +26,16 @@ function post() {
   var desc = $("#Desc").val();
   toDataURL(img, function(dataUrl) {
     img = dataUrl;
+    console.log(img);
     $.ajax({
       url: "./post",
       type: "POST",
-      data: {
+      data: JSON.stringify({
         'img':img,
         'title':title,
         'desc':desc,
-    },
+    }),
+      contentType: 'application/json; charset=UTF-8',
       dataType: "json",
       error: function (err) {
         //swal
@@ -48,7 +50,6 @@ function post() {
   
 }
 function changeDis(input) {
-  console.log(input);
   if (input.files && input.files[0]) {
     var reader = new FileReader();
     reader.onload = function (e) {
@@ -57,6 +58,21 @@ function changeDis(input) {
 
     reader.readAsDataURL(input.files[0]);
   }
+}
+
+function loadProfile(){
+  window.location.href='https://github.com/login/oauth/authorize?client_id=1683b396d56e593c5732&redirect_uri=127.0.0.1/gitauth';
+  $.ajax({
+    url: "",
+    type: "GET",
+    data: {},
+    error: function (err) {
+      console.log("Error:" + err);
+    },
+    success: function (msg) {
+      console.log(msg);
+    },
+  });
 }
 function loadExplore(reqs = 10) {
   //CLEAR items

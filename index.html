@@ -5,7 +5,47 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
-	<link rel="stylesheet" href="styles.css">
+	<style>
+		html{
+	width: 100vw;
+	height: 100vh;
+}
+body {
+	color: white;
+	background-color: rgb(44, 44, 44);
+  font-family: "Lato", serif;
+}
+.header {
+  display: flex;
+  justify-content: center;
+}
+.header-link {
+	color: white;
+  text-decoration: none; /* no underline */
+  font-size: 2em;
+  padding: 0.5em;
+}
+.header-logo {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 80vw;
+  object-fit: contain;
+  max-height: 24vh;
+}
+
+.body-box{
+	margin-top: 5vh;
+	width: 87vw;
+	margin-left: auto;
+	margin-right: auto;
+	text-align: center;
+	font-size: 1.5em;
+	outline: 5px solid whitesmoke;
+	max-width: 25em;
+}
+
+	</style>
 	<script src="script.js"></script>
 	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -18,7 +58,7 @@
 	<a href='#' class='header-link' onclick='postDia();'>Post</a>
 	<a href='#' class='header-link' onclick='loadExplore();'>Explore</a>
 	<a href='#' class='header-link' onclick='loadFeed();'>Feed</a>
-	<a href='#' class='header-link'>Profile</a>
+	<a href='#' class='header-link' onclick='loadProfile()'>Profile</a>
 	</div>
 	<div class='main'>
 		
