@@ -9,10 +9,8 @@ app.use(
   bodyParser.json({ limit: "10mb", extended: true, parameterLimit: 50000 })
 );
 
-
-app.use('/', express.static('public'))
-app.use('/profile', express.static('public'))
-
+app.use("/", express.static("public"));
+app.use("/profile", express.static("public"));
 
 app.get("/explore", (req, res) => {
   fs.readFile("./timetable.json", "utf8", (err, data) => {
@@ -28,21 +26,23 @@ app.get("/explore", (req, res) => {
 });
 
 app.post("/post", (req, res) => {
-  var uuid = uuidv4();
-  var data = req.body;
-  fs.readFile("./posts.json", function (err, existing) {
-    var json = JSON.parse(existing);
-    json[uuid] = data;
-    fs.writeFile("./posts.json", JSON.stringify(json), "utf8", (err) => {
-      if (err) throw err;
+  fs.readFile("./users.json", function (err, existing) {
+    var uuid = uuidv4();
+    var data = req.body;
+    fs.readFile("./posts.json", function (err, existing) {
+      var json = JSON.parse(existing);
+      json[uuid] = data;
+      fs.writeFile("./posts.json", JSON.stringify(json), "utf8", (err) => {
+        if (err) throw err;
+      });
+      res.status(200).end("Succ"); //this shouldnt be here oh well
     });
-    res.status(200).end("Succ"); //this shouldnt be here oh well
-  });
-  fs.readFile("./timetable.json", function (err, tt) {
-    var json = JSON.parse(tt);
-    json.unshift(uuid);
-    fs.writeFile("./timetable.json", JSON.stringify(json), "utf8", (err) => {
-      if (err) throw err;
+    fs.readFile("./timetable.json", function (err, tt) {
+      var json = JSON.parse(tt);
+      json.unshift(uuid);
+      fs.writeFile("./timetable.json", JSON.stringify(json), "utf8", (err) => {
+        if (err) throw err;
+      });
     });
   });
 });
@@ -56,28 +56,39 @@ app.get("/gitauth", (req, res) => {
     var config = {
       headers: {
         Accept: "application/json",
-      }
-    }
-    const url = "https://github.com/login/oauth/access_token/?client_id=1683b396d56e593c5732&client_secret="+secret+"&code=" + code;
-    axios.post(url, JSON.stringify({
-      "client_id": '1683b396d56e593c5732',
-      "client_secret": secret,
-      "code": code
-    }),config)
-    .then(function (response) {
-      //set token and redirect to profile page
-      res.cookie('token',response.data.access_token, { maxAge: 900000});
-      res.status(200).send("<script>window.location.href='./#profile'</script>")
-    }).catch(function (error) {
-      console.log("ERROR: "+error);
-    });
-  })
+      },
+    };
+    const url =
+      "https://github.com/login/oauth/access_token/?client_id=1683b396d56e593c5732&client_secret=" +
+      secret +
+      "&code=" +
+      code;
+    axios
+      .post(
+        url,
+        JSON.stringify({
+          client_id: "1683b396d56e593c5732",
+          client_secret: secret,
+          code: code,
+        }),
+        config
+      )
+      .then(function (response) {
+        //set token and redirect to profile page
+        res.cookie("token", response.data.access_token, { maxAge: 900000 });
+        res
+          .status(200)
+          .send("<script>window.location.href='./#profile'</script>");
+      })
+      .catch(function (error) {
+        console.log("ERROR: " + error);
+      });
+  });
 });
 
 app.post("/gitinfo", (req, res) => {
-  tok = req.body
-  console.log("TOKEN: "+tok);
-
+  tok = req.body;
+  console.log("TOKEN: " + tok);
 });
 
 app.listen(80, () => {

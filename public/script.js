@@ -1,4 +1,6 @@
 import { Octokit } from "https://cdn.skypack.dev/@octokit/rest";
+
+
 $(window).on('hashchange',function(){ 
   window.location.reload(); 
 });
@@ -6,8 +8,10 @@ document.addEventListener("DOMContentLoaded", function () {
   var initialLoaded = 15;
   var path = window.location.hash.substr(1)
   console.log(path);
+  var link = document.getElementById('post-dia');
+  link.addEventListener('click', postDia);
   switch (path) {
-    case "/":
+    case "":
       loadExplore(initialLoaded);
       break;
     case "explore":
@@ -47,6 +51,8 @@ function post() {
   var img = $("#photoDis").attr("src");
   var title = $("#Title").val();
   var desc = $("#Desc").val();
+  var tok = getCookie('token')
+  var usr = 
   toDataURL(img, function (dataUrl) {
     img = dataUrl;
     console.log(img);
@@ -57,6 +63,8 @@ function post() {
         img: img,
         title: title,
         desc: desc,
+        tok: tok,
+        usr: usr,
       }),
       contentType: "application/json; charset=UTF-8",
       dataType: "json",
@@ -71,13 +79,14 @@ function post() {
     });
   });
 }
-function changeDis(input) {
+//making file a module removed global scope tigns like this needs to be
+window.changeDis = function changeDis(input) {
   if (input.files && input.files[0]) {
     var reader = new FileReader();
     reader.onload = function (e) {
+      //TODO size images correctly
       $("#photoDis").attr("src", e.target.result).width(200).height(200);
     };
-
     reader.readAsDataURL(input.files[0]);
   }
 }
@@ -103,7 +112,6 @@ async function loadProfile() {
 }
 function loadExplore(reqs = 10) {
   clearBody();
-  //TODO move list of posts to server to stop race condition and other bad things
   for (let i = 0; i < reqs; i++) {
     $.ajax({
       url: window.location.origin + "/explore",
