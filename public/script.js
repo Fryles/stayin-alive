@@ -12,7 +12,7 @@ document.addEventListener("DOMContentLoaded", function () {
   link.addEventListener('click', postDia);
   switch (path) {
     case "":
-      loadExplore(initialLoaded);
+      //loadExplore(initialLoaded);
       break;
     case "explore":
       loadExplore(initialLoaded);
@@ -36,7 +36,7 @@ function postDia() {
     '<input type="text" id="Title" placeholder="Title"><input type="text" id="Desc" placeholder="Description"><input type="file" onchange="changeDis(this)">';
   swal({
     title: "Upload your photo",
-    icon: "placeholder.png",
+    icon: "placeholder.jpg",
     content: wrapper,
     buttons: ["Cancel", "Do it!"],
   }).then((result) => {
@@ -111,7 +111,6 @@ async function loadProfile() {
   }
 }
 function loadExplore(reqs = 10) {
-  clearBody();
   for (let i = 0; i < reqs; i++) {
     $.ajax({
       url: window.location.origin + "/explore",
@@ -124,7 +123,8 @@ function loadExplore(reqs = 10) {
       success: function (msg) {
         if (msg != "") {
           var json = JSON.parse(msg);
-          $(".main").append('<img src="' + json.img + '">');
+          var imgbx = '<div class="post-box"><div class="post-box-content"><img class="post-box-img" src="'+json.img+'" /></div><div class="post-box-content"><h2 class="post-box-title">'+json.title+'</h2><p>'+json.desc+'</p></div></div>'
+          $(".main").append(imgbx);
         }
       },
     });

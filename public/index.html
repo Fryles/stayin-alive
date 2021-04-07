@@ -9,9 +9,13 @@
       href="https://fonts.googleapis.com/css?family=Lato"
     />
     <style>
+      * {
+        margin: 0;
+        box-sizing: border-box;
+      }
       html {
-        width: 100vw;
-        height: 100vh;
+        width: 100%;
+        height: 100%;
       }
       body {
         color: white;
@@ -26,7 +30,7 @@
         cursor: pointer;
         color: white;
         text-decoration: none; /* no underline */
-        font-size: calc(17px + 1.6vw);
+        font-size: calc(18px + 1.5vw);
         padding: 0.5em;
       }
       .header-logo {
@@ -36,32 +40,37 @@
         width: 80vw;
         object-fit: contain;
         max-height: 24vh;
+        min-height: 100px;
       }
-			.prof-pic{
-				width: 5em;
-				height: 5em;
-				border-radius: 50%;
-			}
-			.prof-header{
-				padding: 1em;
-				display: flex;
-    		flex-direction: row;
-    		align-items: flex-start
-			}
-			.prof-header h1{
-				padding: 0 1em;
-			}
-			.prof-box{
-				margin-left: auto;
+      .prof-pic {
+        width: 5em;
+        height: 5em;
+        border-radius: 50%;
+      }
+      .prof-header {
+        padding: 1em;
+        display: flex;
+        flex-direction: row;
+        align-items: flex-start;
+      }
+      .prof-header h1 {
+        padding: 0 1em;
+      }
+      .prof-box {
+        margin-left: auto;
         margin-right: auto;
-				height: 50vh;
-				background-color: rgb(27, 27, 27);
-				border-radius: 14px;
-				max-width: 40em;
-			}
-			.prof-main{
-				padding: 1em;
-			}
+        height: 50vh;
+        background-color: rgb(27, 27, 27);
+        border-radius: 14px;
+        max-width: 40em;
+      }
+      .prof-main {
+        padding: 1em;
+      }
+      #photoDis{
+        width: 200px;
+        height: auto;
+      }
       .body-box {
         margin-top: 5vh;
         width: 87vw;
@@ -72,6 +81,38 @@
         outline: 5px solid whitesmoke;
         max-width: 25em;
       }
+      .post-box {
+        display: flex;
+        flex-wrap:nowrap;
+        margin-left: auto;
+        margin-right: auto;
+        height: auto;
+        background-color: rgb(27, 27, 27);
+        border-radius: 14px;
+        width: 65vw;
+        max-width: 35em;
+      }
+      @media only screen and (max-width: 500px) {
+        .post-box {
+        width: 80vw;
+        max-width: 40em;
+      }
+      }
+      .post-box-img {
+        padding: 0.5vw;
+        width: 100%;
+        height: auto;
+        border-radius: 20%;
+      }
+      .post-box-title {
+        display: flex;
+        justify-content: center;
+      }
+      .post-box-content {
+        font-size: calc(10px + 1vw);
+        flex: 0 0 50%;
+        padding: 10px;
+      }
     </style>
     <script type="module" src="script.js"></script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
@@ -81,10 +122,10 @@
   <body>
     <img class="header-logo" src="./Title.png" />
     <div class="header">
-      <a class="header-link" id='post-dia'>Post</a>
-      <a href='../#explore' class="header-link">Explore</a>
-      <a href='../#feed' class="header-link">Feed</a>
-      <a href='../#profile' class="header-link">Profile</a>
+      <a class="header-link" id="post-dia">Post</a>
+      <a href="../#explore" class="header-link">Explore</a>
+      <a href="../#feed" class="header-link">Feed</a>
+      <a href="../#profile" class="header-link">Profile</a>
     </div>
     <div class="main">
       
